@@ -34,10 +34,14 @@ static const uint8_t spike_set[][2] = {
 
 static void Spike_Hurt(Object *obj)
 {
+	Scratch_Sonic *scratch = (Scratch_Sonic*)&player->scratch;
+
 	//Check if player can be hurt
 	if (invincibility)
 		return;
 	if (player->routine >= 4)
+		return;
+	if (scratch->flash_time)
 		return;
 	
 	//Hurt player

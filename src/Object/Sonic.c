@@ -198,11 +198,15 @@ void Sonic_Animate(Object *obj)
 			uint16_t abs_spd = (obj->inertia < 0) ? -obj->inertia : obj->inertia;
 			
 			//Get script to use
-			anim_script = GET_SONIC_ANISCR(SonAnimId_Run);
-			if (abs_spd < 0x600)
+			anim_script = GET_SONIC_ANISCR(SonAnimId_MachSpeed);
+			if (abs_spd < 0xA00)
 			{
-				anim_script = GET_SONIC_ANISCR(SonAnimId_Walk);
-				angle += (angle >> 1);
+				anim_script = GET_SONIC_ANISCR(SonAnimId_Run);
+				if (abs_spd < 0x600)
+				{
+					anim_script = GET_SONIC_ANISCR(SonAnimId_Walk);
+					angle += (angle);
+				}
 			}
 			angle <<= 1;
 			
@@ -957,8 +961,8 @@ signed int KillSonic(Object *obj, Object *src)
 	Sonic_ResetOnFloor(obj);
 	obj->status.p.f.in_air = true;
 	obj->ysp = -0x700;
-	obj->xsp = 0;
-	obj->inertia = 0;
+//	obj->xsp = 0;
+//	obj->inertia = 0;
 	scratch->x38.death_y = obj->pos.l.y.f.u;
 	obj->anim = SonAnimId_Death;
 	obj->tile |= TILE_PRIORITY_AND;
@@ -1040,7 +1044,7 @@ static void Sonic_MoveLeft(Object *obj)
 	int16_t inertia = obj->inertia;
 	if (inertia <= 0)
 	{
-		//Turn around
+		//Turn around, this is equivalent to @cont/loc_13086 in Sonic_MoveLeft
 		if (!obj->status.p.f.x_flip)
 		{
 			obj->status.p.f.x_flip = true;
@@ -1048,11 +1052,12 @@ static void Sonic_MoveLeft(Object *obj)
 			obj->prev_anim = 1; //Reset animation
 		}
 		
-		//Accelerate
-		if ((inertia -= sonspeed_acc) <= -sonspeed_max)
-			inertia = -sonspeed_max;
+		//Accelerate, equivalent to... @cont2/loc_1309A?
+		if ((inertia -= sonspeed_acc) <= -sonspeed_max) // everything up to that bgt.s
+			if ((inertia += sonspeed_acc) >= -sonspeed_max) // I think this is right?
+				inertia = -sonspeed_max; // move.w d1,d0
 		
-		//Set speed and animation
+		//Set speed and animation, equivalent to loc_130A6
 		obj->inertia = inertia;
 		obj->anim = SonAnimId_Walk;
 	}
@@ -1088,7 +1093,8 @@ static void Sonic_MoveRight(Object *obj)
 		
 		//Accelerate
 		if ((inertia += sonspeed_acc) >= sonspeed_max)
-			inertia = sonspeed_max;
+			if ((inertia -= sonspeed_acc) <= sonspeed_max)
+				inertia = sonspeed_max;
 		
 		//Set speed and animation
 		obj->inertia = inertia;
@@ -1513,7 +1519,8 @@ static void Sonic_JumpDirection(Object *obj)
 		{
 			obj->status.p.f.x_flip = true;
 			if ((xsp -= (sonspeed_acc << 1)) <= -sonspeed_max)
-				xsp = -sonspeed_max;
+				if ((xsp += (sonspeed_acc << 1)) >= -sonspeed_max)
+					xsp = -sonspeed_max;
 		}
 		
 		//Accelerate right
@@ -1521,7 +1528,8 @@ static void Sonic_JumpDirection(Object *obj)
 		{
 			obj->status.p.f.x_flip = false;
 			if ((xsp += (sonspeed_acc << 1)) >= sonspeed_max)
-				xsp = sonspeed_max;
+				if ((xsp -= (sonspeed_acc << 1)) <= sonspeed_max)
+					xsp = sonspeed_max;
 		}
 		
 		//Apply acceleration
@@ -1813,6 +1821,11 @@ void Obj_Sonic(Object *obj)
 						Sonic_SlopeRepel(obj);
 						break;
 					case 2: //Not in ball, in air
+						if (obj->anim == SonAnimId_Spring)
+						{
+							if (obj->ysp > 0)
+								obj->anim = SonAnimId_Fall;
+						}
 						Sonic_JumpHeight(obj);
 						Sonic_JumpDirection(obj);
 						Sonic_LevelBound(obj);
