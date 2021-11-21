@@ -1,3 +1,8 @@
+# Whatever this thing is!
+A project sparked by a few small changes made by Gemini to CuckyDev's SoniCPort repo in his spare time, having not known anything about C. Not really sure what the end result of this will be, but it should be pretty cool?
+
+Here's the original readme.
+
 # SoniCPort
 
 Sonic the Hedgehog (1991, Sega Genesis / MegaDrive) C Port
