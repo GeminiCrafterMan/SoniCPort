@@ -22,7 +22,9 @@ extern const uint8_t anim_sonic[];
 typedef struct
 {
 	uint8_t air;                 //0x28
-	uint8_t pad0[7];             //0x29 - 0x2F
+	uint8_t spindash;			 // obSpindash, it's a byte
+	uint16_t spindashCounter;	 // obSpindashCounter, it's a word
+	uint8_t pad0[5];             //0x2B - 0x2F
 	uint16_t flash_time;         //0x30
 	uint16_t invincibility_time; //0x32
 	uint16_t shoes_time;         //0x34
@@ -90,6 +92,18 @@ typedef enum
 	SonAnimId_MachSpeed,
 	SonAnimId_Victory,
 } SonAnimId;
+
+static const uint16_t SpindashSpeeds[9] = {
+  0x800,
+  0x880,
+  0x900,
+  0x980,
+  0xA00,
+  0xA80,
+  0xB00,
+  0xB80,
+  0xC00
+};
 
 //Sonic functions
 void Sonic_Animate(Object *obj);

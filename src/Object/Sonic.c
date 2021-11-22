@@ -755,7 +755,7 @@ static signed int React_ChkHurt(Object *obj, Object *hit)
 static signed int React_Enemy(Object *obj, Object *hit)
 {
 	//Check if we can hurt the enemy
-	if (!(invincibility || obj->anim == SonAnimId_Roll))
+	if (!(invincibility || obj->anim == SonAnimId_Roll || obj->anim == SonAnimId_Spindash))
 		return React_ChkHurt(obj, hit);
 	
 	//Check if enemy is a boss
@@ -987,6 +987,9 @@ static bool Sonic_Jump(Object *obj)
 	if (!(jpad1_press2 & (JPAD_A | JPAD_C | JPAD_B)))
 		return false;
 	
+	if (scratch->spindash)
+		return false;
+
 	//Check if we have enough room to jump
 	int16_t dist;
 	GetDistanceBelowAngle(obj, obj->angle + 0x80, NULL, &dist, NULL);
@@ -1121,6 +1124,9 @@ static void Sonic_Move(Object *obj)
 {
 	Scratch_Sonic *scratch = (Scratch_Sonic*)&obj->scratch;
 	
+	if (scratch->spindash) // Don't move while spindashing!
+	return;
+
 	if (!jump_only)
 	{
 		if (!scratch->control_lock)
@@ -1320,6 +1326,110 @@ static void Sonic_LevelBound(Object *obj)
 		}
 	}
 }
+
+
+// Spindash
+
+static void Sonic_Spindash(Object *obj)
+{
+	Scratch_Sonic *scratch = (Scratch_Sonic*)&player->scratch;
+	// Sonic_CheckSpindash
+	if (!(scratch->spindash))
+	{
+		if (obj->anim != SonAnimId_Duck)
+			return;
+		//Don't spindash if ABC isn't pressed
+		if (!(jpad1_press2 & (JPAD_A | JPAD_C | JPAD_B)))
+			return;
+		obj->anim = SonAnimId_Spindash;
+		scratch->spindash = 1;
+		scratch->spindashCounter = 0x80;
+		Sonic_LevelBound(obj);
+		Sonic_AnglePos(obj);
+		return; // rts
+	}
+	else
+	{
+		// Sonic_UpdateSpindash
+		obj->anim = SonAnimId_Spindash;
+		if (jpad1_hold2 & JPAD_DOWN)
+		{
+			// Sonic_ChargingSpindash
+			if (!(scratch->spindashCounter)) // if it equals 0
+				goto Sonic_ChargingSpindash_Done;
+
+			if (!(jpad1_hold2 & (JPAD_A | JPAD_C | JPAD_B)))
+				goto Sonic_ChargingSpindash_Done; // bne.s @done, i haven't done that yet tho
+
+// Right, so... This isn't being decremented OR incremented properly, making all spindashes equal to $800 inertia.
+
+//			scratch->spindashCounter -= (scratch->spindashCounter >> 5);
+			scratch->spindashCounter--;
+
+			if (!(scratch->spindashCounter == 0x1F))
+				goto Sonic_ChargingSpindash_Skip; // bne.s @skip
+			scratch->spindashCounter = 0;
+			scratch->spindash = 0;
+			goto Sonic_ChargingSpindash_Done;
+
+Sonic_ChargingSpindash_Skip:
+			if (scratch->spindashCounter > 0x1F)
+				goto Sonic_ChargingSpindash_Done;
+			scratch->spindashCounter = 0;
+
+Sonic_ChargingSpindash_Done:
+			if (jpad1_press2 & (JPAD_A | JPAD_C | JPAD_B))
+			{
+				obj->anim_frame = 0;
+				goto Sonic_Spindash_ResetScr;
+			}
+			scratch->spindashCounter = (scratch->spindashCounter + 0x200);
+			if (scratch->spindashCounter < 0x800)
+				goto Sonic_Spindash_ResetScr;
+			scratch->spindashCounter = 0x800;
+
+Sonic_Spindash_ResetScr:
+			// We're doin' it mate!!!!!!!!
+			// uhhh shit i should look at the other dingus first
+			//Reset screen shift
+			if (look_shift < (96 + SCREEN_TALLADD2))
+				look_shift += 2;
+			else if (look_shift > (96 + SCREEN_TALLADD2))
+				look_shift -= 2;
+			Sonic_LevelBound(obj);
+			Sonic_AnglePos(obj);
+			return;
+		}
+
+		// Unleash the charged spindash and start rolling.
+		obj->y_rad = SONIC_BALL_HEIGHT;
+		obj->x_rad = SONIC_BALL_WIDTH;
+		obj->anim = SonAnimId_Roll;
+		obj->status.p.f.in_ball = true;
+		obj->pos.l.y.f.u += SONIC_BALL_SHIFT; // add the difference between Sonic's rolling and standing heights
+		scratch->spindash = 0;
+
+//		obj->inertia = SpindashSpeeds[(uint16_t)((uint8_t)scratch->spindashCounter + (uint8_t)scratch->spindashCounter)];
+		obj->inertia = SpindashSpeeds[(uint16_t)((uint8_t)scratch->spindashCounter / 0x100)];
+
+		/*
+		obj->inertia -= 8;
+		obj->inertia += obj->inertia;
+		obj->inertia &= 0x1F;
+		obj->inertia = -obj->inertia;
+		obj->inertia += 0x20;
+		*/
+
+		// camera lag bs
+		if (obj->status.p.f.x_flip)
+		{
+			obj->inertia = -obj->inertia;
+		}
+		goto Sonic_Spindash_ResetScr;
+	}
+}
+
+// End of spindash
 
 static void Sonic_SlopeRepel(Object *obj)
 {
@@ -1810,6 +1920,7 @@ void Obj_Sonic(Object *obj)
 				switch ((obj->status.p.f.in_ball << 2) | (obj->status.p.f.in_air << 1))
 				{
 					case 0: //Not in ball, not in air
+						Sonic_Spindash(obj);
 						if (Sonic_Jump(obj))
 							break;
 						Sonic_SlopeResist(obj);
@@ -1826,6 +1937,7 @@ void Obj_Sonic(Object *obj)
 							if (obj->ysp > 0)
 								obj->anim = SonAnimId_Fall;
 						}
+						scratch->spindash = 0;
 						Sonic_JumpHeight(obj);
 						Sonic_JumpDirection(obj);
 						Sonic_LevelBound(obj);
@@ -1846,6 +1958,7 @@ void Obj_Sonic(Object *obj)
 						Sonic_SlopeRepel(obj);
 						break;
 					case 6: //In ball, in air
+						scratch->spindash = 0;
 						Sonic_JumpHeight(obj);
 						Sonic_JumpDirection(obj);
 						Sonic_LevelBound(obj);
