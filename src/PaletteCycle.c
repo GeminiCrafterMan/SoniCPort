@@ -15,9 +15,11 @@ static ALIGNED2 const uint8_t pal_sega1[] = {
 static ALIGNED2 const uint8_t pal_sega2[] = {
 	#include "Resource/Palette/Sega2.h"
 };
+/*
 static ALIGNED2 const uint8_t pal_titlecycle[] = {
 	#include "Resource/Palette/TitleCycle.h"
 };
+*/
 static ALIGNED2 const uint8_t pal_ghzcycle[] = {
 	#include "Resource/Palette/GHZCycle.h"
 };
@@ -135,7 +137,7 @@ static void PCycle_Water(const uint8_t *palette)
 
 void PCycle_Title()
 {
-	PCycle_Water(pal_titlecycle);
+	PCycle_Water(pal_ghzcycle); // Used to be pal_titlecycle.
 }
 
 void PCycle_SS()

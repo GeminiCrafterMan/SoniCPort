@@ -23,7 +23,7 @@ void Obj_TitleSonic(Object *obj)
 			
 			//Set object drawing information
 			obj->mappings = map_titlesonic;
-			obj->tile = TILE_MAP(0, 1, 0, 0, 0x300);
+			obj->tile = TILE_MAP(0, 0, 0, 0, 0x300); // Changed second value to 0 to make it use palette line 0 for easier editing in Flex2
 			obj->priority = 1;
 			
 			//Initialize state

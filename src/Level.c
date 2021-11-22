@@ -352,7 +352,7 @@ static const int16_t ldef_size[ZoneId_Num][4][6] = {
 	}
 };
 
-//Player start positions
+//Player start positions, in the format {X pos hex, Y pos hex}
 static const int16_t ldef_start[ZoneId_Num][4][2] = {
 	{ //ZoneId_GHZ
 		{0x0050, 0x03B0},

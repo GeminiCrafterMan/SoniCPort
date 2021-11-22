@@ -1,0 +1,377 @@
+{
+    "Flex": 2,
+    "name": "",
+    "node": "6d5d546c-1ef1-4e2a-a5bb-bcc81890a131",
+    "objects": [
+        {
+            "uuid": "6c1ef17e-2aa5-4bbc-8818-90a131928e8a",
+            "format": "Sonic 1.js",
+            "name": "Sonic (Levels)",
+            "palettes": [
+                {
+                    "path": "Palette/Sonic",
+                    "length": 1
+                }
+            ],
+            "art": {
+                "path": "Art/Sonic",
+                "compression": "Uncompressed",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "Mappings/Sonic",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": true,
+                "path": "Mappings/SonicDPLC",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "546c1ef1-7e2a-45bb-bcc8-1890a131928e",
+            "format": "Sonic 1.js",
+            "name": "Sonic (Title Screen)",
+            "palettes": [
+                {
+                    "path": "Palette/Title",
+                    "length": 4
+                }
+            ],
+            "art": {
+                "path": "Art/TitleSonic",
+                "compression": "Nemesis",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "Mappings/TitleSonic",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "5d546c1e-f17e-4aa5-bbbc-c81890a13192",
+            "format": "Sonic 1.js",
+            "name": "Monitors",
+            "palettes": [],
+            "art": {
+                "path": "Art/Monitor",
+                "compression": "Nemesis",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "6d5d546c-1ef1-4e2a-a5bb-bcc81890a131",
+            "format": "Sonic 1.js",
+            "name": "HUD",
+            "palettes": [],
+            "art": {
+                "path": "Art/HUD",
+                "compression": "Nemesis",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "Mappings/HUD",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "2a6d5d54-6c1e-417e-aaa5-bbbcc81890a1",
+            "format": "Sonic 1.js",
+            "name": "Signpost",
+            "palettes": [],
+            "art": {
+                "path": "Art/Signpost",
+                "compression": "Nemesis",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "Mappings/Signpost",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "062a6d5d-546c-4ef1-be2a-a5bbbcc81890",
+            "format": "Sonic 1.js",
+            "name": "object",
+            "palettes": [],
+            "art": {
+                "path": "",
+                "compression": "Uncompressed",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "c0062a6d-5d54-4c1e-b17e-2aa5bbbcc818",
+            "format": "Sonic 1.js",
+            "name": "object",
+            "palettes": [],
+            "art": {
+                "path": "",
+                "compression": "Uncompressed",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "43c0062a-6d5d-446c-9ef1-7e2aa5bbbcc8",
+            "format": "Sonic 1.js",
+            "name": "object",
+            "palettes": [],
+            "art": {
+                "path": "",
+                "compression": "Uncompressed",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "6843c006-2a6d-4d54-ac1e-f17e2aa5bbbc",
+            "format": "Sonic 1.js",
+            "name": "object",
+            "palettes": [],
+            "art": {
+                "path": "",
+                "compression": "Uncompressed",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "096843c0-062a-4d5d-946c-1ef17e2aa5bb",
+            "format": "Sonic 1.js",
+            "name": "object",
+            "palettes": [],
+            "art": {
+                "path": "",
+                "compression": "Uncompressed",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "24096843-c006-4a6d-9d54-6c1ef17e2aa5",
+            "format": "Sonic 1.js",
+            "name": "object",
+            "palettes": [],
+            "art": {
+                "path": "",
+                "compression": "Uncompressed",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "40240968-43c0-462a-ad5d-546c1ef17e2a",
+            "format": "Sonic 1.js",
+            "name": "object",
+            "palettes": [],
+            "art": {
+                "path": "",
+                "compression": "Uncompressed",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "7f402409-6843-4006-aa6d-5d546c1ef17e",
+            "format": "Sonic 1.js",
+            "name": "object",
+            "palettes": [],
+            "art": {
+                "path": "",
+                "compression": "Uncompressed",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "257f4024-0968-43c0-862a-6d5d546c1ef1",
+            "format": "Sonic 1.js",
+            "name": "object",
+            "palettes": [],
+            "art": {
+                "path": "",
+                "compression": "Uncompressed",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "ad257f40-2409-4843-8006-2a6d5d546c1e",
+            "format": "Sonic 1.js",
+            "name": "object",
+            "palettes": [],
+            "art": {
+                "path": "",
+                "compression": "Uncompressed",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "eead257f-4024-4968-83c0-062a6d5d546c",
+            "format": "Sonic 1.js",
+            "name": "object",
+            "palettes": [],
+            "art": {
+                "path": "",
+                "compression": "Uncompressed",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "70eead25-7f40-4409-a843-c0062a6d5d54",
+            "format": "Sonic 1.js",
+            "name": "object",
+            "palettes": [],
+            "art": {
+                "path": "",
+                "compression": "Uncompressed",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        },
+        {
+            "uuid": "0770eead-257f-4024-8968-43c0062a6d5d",
+            "format": "Sonic 1.js",
+            "name": "object",
+            "palettes": [],
+            "art": {
+                "path": "",
+                "compression": "Uncompressed",
+                "offset": 0
+            },
+            "mappings": {
+                "path": "",
+                "label": ""
+            },
+            "dplcs": {
+                "enabled": false,
+                "path": "",
+                "label": ""
+            }
+        }
+    ]
+}

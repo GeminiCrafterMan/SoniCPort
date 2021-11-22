@@ -237,7 +237,7 @@ void VDP_SetHIntPosition(int16_t pos)
 //VDP rendering
 #define SCREEN_PITCH SCREEN_WIDTH + (VDP_INTERNAL_PAD * 2)
 
-#define SCANLINE_SPRITES 40
+#define SCANLINE_SPRITES 40	// Sprite limit. Set to some obscene number or remove the checks to remove it.
 
 static uint32_t vdp_screen_internal[SCREEN_HEIGHT][SCREEN_PITCH];
 static uint8_t vdp_mask_internal[SCREEN_HEIGHT][SCREEN_PITCH];
@@ -269,7 +269,8 @@ static inline uint32_t VDP_GetColour(size_t index)
 	uint8_t g = (cv & 0x0E0) >> 5;
 	uint8_t b = (cv & 0xE00) >> 9;
 	
-	static const uint8_t col_level[] = {0, 52, 87, 116, 144, 172, 206, 255};
+	static const uint8_t col_level[] = {0, 52, 87, 116, 144, 172, 206, 255}; // The poopy BlastEm look.
+//	static const uint8_t col_level[] = {0, 34, 68, 102, 136, 170, 204, 238}; // The chad... every other fucking emulator look.
 	return (col_level[r] << 24) | (col_level[g] << 16) | (col_level[b] << 8) | 0xFF;
 }
 

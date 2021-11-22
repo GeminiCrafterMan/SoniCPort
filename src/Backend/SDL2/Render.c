@@ -41,7 +41,7 @@ int Render_Init(const MD_Header *header)
 	
 	//Load icon
 	SDL_Surface *icon_surface;
-	if ((icon_surface = SDL_CreateRGBSurfaceWithFormatFrom((void*)icon_data, 16, 16, 24, 16*3, SDL_PIXELFORMAT_RGB24)) == NULL)
+	if ((icon_surface = SDL_CreateRGBSurfaceWithFormatFrom((void*)icon_data, 32, 32, 24, 16*3, SDL_PIXELFORMAT_RGB24)) == NULL)
 	{
 		printf("Render_Init: %s\n", SDL_GetError());
 	}
