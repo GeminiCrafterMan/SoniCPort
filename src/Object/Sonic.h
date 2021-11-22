@@ -24,7 +24,8 @@ typedef struct
 	uint8_t air;                 //0x28
 	uint8_t spindash;			 // obSpindash, it's a byte
 	uint16_t spindashCounter;	 // obSpindashCounter, it's a word
-	uint8_t pad0[5];             //0x2B - 0x2F
+	// I messed up here, so Sonic was creeping over the 0x40 limit.
+	uint8_t pad0[4];             //0x2B - 0x2F
 	uint16_t flash_time;         //0x30
 	uint16_t invincibility_time; //0x32
 	uint16_t shoes_time;         //0x34
