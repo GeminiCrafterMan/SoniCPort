@@ -22,7 +22,7 @@ void Obj_Credits(Object *obj)
 			//Set object drawing information
 			obj->mappings = map_credits;
 			obj->tile = TILE_MAP(0, 0, 0, 0, 0x5A0);
-			obj->frame = credits_num;
+			obj->frame = (uint8_t)credits_num;
 			obj->render.b = 0;
 			obj->priority = 0;
 			

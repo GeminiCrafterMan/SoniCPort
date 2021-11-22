@@ -134,7 +134,7 @@ void Obj_Ring(Object *obj)
 			if (!Obj_Ring_ShiftChk(&state))
 			{
 				*statep &= 0x7F;
-				Obj_Ring_SetupRing(obj, index, x, y, obj);
+				Obj_Ring_SetupRing(obj, (uint8_t)index, x, y, obj);
 			}
 			
 			for (
@@ -147,7 +147,7 @@ void Obj_Ring(Object *obj)
 					*statep &= 0x7F;
 					Object *ring = FindFreeObj();
 					if (ring != NULL)
-						Obj_Ring_SetupRing(obj, index, x, y, ring);
+						Obj_Ring_SetupRing(obj, (uint8_t)index, x, y, ring);
 				}
 			}
 			

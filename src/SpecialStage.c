@@ -305,8 +305,8 @@ void SS_ShowLayout(uint8_t sprite_i)
 		int32_t d1b = (d2 * sin) + (d3 * cos);
 		for (int j = 0; j < 16; j++)
 		{
-			*to++ = d2b >> 8;
-			*to++ = d1b >> 8;
+			*to++ = (int16_t)(d2b >> 8);
+			*to++ = (int16_t)(d1b >> 8);
 			d2b += d5;
 			d1b += d4;
 		}

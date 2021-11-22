@@ -34,11 +34,10 @@ static void Sonic_Display(Object *obj)
 	Scratch_Sonic *scratch = (Scratch_Sonic*)&obj->scratch;
 	
 	//Handle invulnerability blinking
-	uint16_t blink;
-	if ((blink = scratch->flash_time))
+	if (scratch->flash_time)
 	{
 		scratch->flash_time--;
-		if (blink & 4)
+		if (scratch->flash_time & 4)
 			DisplaySprite(obj);
 	}
 	else
@@ -177,7 +176,7 @@ void Sonic_Animate(Object *obj)
 			//Walking or running
 			//Get orienatation
 			uint8_t angle = obj->angle;
-			uint8_t flip = obj->status.p.f.x_flip;
+			uint8_t flip = (uint8_t)obj->status.p.f.x_flip;
 			if (!flip)
 				angle ^= ~0;
 			if ((angle += 0x10) & 0x80)
@@ -255,7 +254,7 @@ void Sonic_Animate(Object *obj)
 			int16_t anim_spd = 0x800 - abs_spd;
 			if (anim_spd < 0)
 				anim_spd = 0;
-			obj->frame_time.b = anim_spd >> 6;
+			obj->frame_time.b = (int8_t)(anim_spd >> 6);
 			
 			//Get script to use
 			anim_script = GET_SONIC_ANISCR(SonAnimId_Push);
@@ -305,7 +304,7 @@ void Sonic_LoadGfx(Object *obj)
 	{
 		//Read entry
 		uint16_t tile = *dplc_script++;
-		uint8_t tiles = tile >> 4;
+		uint8_t tiles = (uint8_t)(tile >> 4);
 		tile = ((tile << 8) | (*dplc_script++)) << 5;
 		
 		const uint8_t *fromp = art_sonic + tile;
@@ -502,7 +501,7 @@ static void Sonic_Floor(Object *obj)
 	//Get angle we're moving in
 	//There's some weird logging stuff done here
 	//Maybe testing if the CalcAngle is yielding desirable results?
-	uint8_t angle = CalcAngle(obj->xsp, obj->ysp);
+	uint8_t angle = (uint8_t)CalcAngle(obj->xsp, obj->ysp);
 	dbg_ang0 = angle;
 	angle -= 0x20;
 	dbg_ang1 = angle;
@@ -528,7 +527,7 @@ static void Sonic_Floor(Object *obj)
 			
 			//Collide with floor
 			GetDistance_Down(obj, &dist0, &dist1, &hit_angle);
-			dbg_ang3 = dist1; //...What?
+			dbg_ang3 = (uint8_t)dist1; //...What?
 			
 			clip = -((obj->ysp >> 8) + 8);
 			if (dist1 < 0 && (dist0 >= clip || dist1 >= clip))
@@ -774,7 +773,7 @@ static signed int React_Enemy(Object *obj, Object *hit)
 		hit->status.o.f.flag7 = true;
 		
 		//Increment bonus
-		uint8_t bonus = item_bonus;
+		uint8_t bonus = (uint8_t)item_bonus;
 		item_bonus += 2;
 		
 		//Handle score bonus
@@ -904,12 +903,12 @@ signed int HurtSonic(Object *obj, Object *src)
 		if (rings)
 		{
 			//Spawn lost rings object
-			Object *rings = FindFreeObj();
-			if (rings != NULL)
+			Object *lostRings = FindFreeObj();
+			if (lostRings != NULL)
 			{
-				rings->type = ObjId_RingLoss;
-				rings->pos.l.x.f.u = obj->pos.l.x.f.u;
-				rings->pos.l.y.f.u = obj->pos.l.y.f.u;
+				lostRings->type = ObjId_RingLoss;
+				lostRings->pos.l.x.f.u = obj->pos.l.x.f.u;
+				lostRings->pos.l.y.f.u = obj->pos.l.y.f.u;
 			}
 		}
 		else if (!debug_mode)

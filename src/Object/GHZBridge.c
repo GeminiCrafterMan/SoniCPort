@@ -80,7 +80,7 @@ static void Obj_GHZBridge_Bend(Object *obj)
 	//Get bend state
 	d0 = scratch->subtype << 4;
 	d3 = scratch->push_seg;
-	d2 = d3;
+	d2 = (uint8_t)d3;
 	d3 += d0;
 	
 	d5 = ghz_bridge_bend1[d3];
@@ -104,7 +104,7 @@ static void Obj_GHZBridge_Bend(Object *obj)
 	d3 = -(scratch->push_seg + 1 - d0);
 	if (d3 & 0x80)
 		return;
-	d2 = d3;
+	d2 = (uint8_t)d3;
 	
 	a3 = &ghz_bridge_bend2[(d3 << 4) + d2];
 	if (--d2 == 0xFF)
@@ -162,7 +162,7 @@ static void Obj_GHZBridge_WalkOff(Object *obj)
 	
 	if (!ExitPlatform(obj, x_rad, scratch->subtype << 3, &x_off))
 	{
-		scratch->push_seg = x_off >> 4;
+		scratch->push_seg = (uint8_t)(x_off >> 4);
 		if (scratch->push != 0x40)
 			scratch->push += 4;
 		Obj_GHZBridge_Bend(obj);
@@ -235,10 +235,10 @@ void Obj_GHZBridge(Object *obj)
 						x += 16;
 						obj->pos.l.y.f.u = y;
 						scratch->base_y = y;
-						*segp++ = obj - objects;
+						*segp++ = (uint8_t)(obj - objects);
 						scratch->subtype++;
 					}
-					*segp++ = seg - objects;
+					*segp++ = (uint8_t)(seg - objects);
 					
 					//Set segment object
 					Scratch_GHZBridge *segscratch = (Scratch_GHZBridge*)&seg->scratch;

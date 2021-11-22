@@ -84,7 +84,7 @@ void Obj_TitleCard(Object *obj)
 				a1->pos.s.y = item->y;
 				a1->routine = item->routine;
 				if ((d0 = item->frame) == 0)
-					d0 = d2;
+					d0 = (uint8_t)d2;
 				
 				//Initialize object graphics
 				if (d0 == 7)
