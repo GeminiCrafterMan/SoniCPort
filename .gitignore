@@ -5,6 +5,7 @@
 # Exclude converted resources
 /src/Resource/
 /.vs
+/.vscode
 /out
 CMakeSettings.json
 
