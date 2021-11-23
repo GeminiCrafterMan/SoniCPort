@@ -135,6 +135,53 @@ void Obj_Signpost(Object *obj)
 			NewPLC(PlcId_TitleCard);
 			break;
 		case 8: //Level end
+			static const uint16_t demo_loc[ZoneId_Num][4] =
+			{
+				{
+					LEVEL_ID(ZoneId_GHZ, 1),
+					LEVEL_ID(ZoneId_GHZ, 2),
+					LEVEL_ID(ZoneId_MZ,  0),
+					0,
+				},
+				{
+					LEVEL_ID(ZoneId_LZ,  1),
+					LEVEL_ID(ZoneId_LZ,  2),
+					LEVEL_ID(ZoneId_SLZ, 0),
+					LEVEL_ID(ZoneId_SBZ, 2),
+				},
+				{
+					LEVEL_ID(ZoneId_MZ,  1),
+					LEVEL_ID(ZoneId_MZ,  2),
+					LEVEL_ID(ZoneId_SYZ, 0),
+					0,
+				},
+				{
+					LEVEL_ID(ZoneId_SLZ, 1),
+					LEVEL_ID(ZoneId_SLZ, 2),
+					LEVEL_ID(ZoneId_SBZ, 0),
+					0,
+				},
+				{
+					LEVEL_ID(ZoneId_SYZ, 1),
+					LEVEL_ID(ZoneId_SYZ, 2),
+					LEVEL_ID(ZoneId_LZ,  0),
+					0,
+				},
+				{
+					LEVEL_ID(ZoneId_SBZ, 1),
+					LEVEL_ID(ZoneId_LZ,  3),
+					LEVEL_ID(ZoneId_GHZ, 0),
+					0,
+				},
+				{
+					0,
+					0,
+					0,
+					0,
+				},
+			};
+			level_id = demo_loc[LEVEL_ZONE(level_id)][LEVEL_ACT(level_id)];
+			restart = true;
 			break;
 	}
 	
