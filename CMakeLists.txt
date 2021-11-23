@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.12)
 set(BACKEND "SDL2" CACHE STRING "Which backend to use (SDL2)")
 option(REV01 "Compile REV01 ROM" ON)
 option(JAPANESE "Compile Japanese ROM" OFF)
-option(FIX_BUGS "Fix bugs (completely screwed up code, not gameplay bugs)" OFF)
+option(FIX_BUGS "Fix bugs (completely screwed up code, not gameplay bugs)" ON)
 option(SPLASH "Enable the SSRG splash screen (for my own demo releases)" OFF)
 
 option(SANITIZE "Enable sanitization" OFF)

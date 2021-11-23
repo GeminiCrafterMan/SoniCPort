@@ -1333,7 +1333,7 @@ static void Sonic_Spindash(Object *obj)
 {
 	Scratch_Sonic *scratch = (Scratch_Sonic*)&player->scratch;
 	// Sonic_CheckSpindash
-	if (!(scratch->spindash))
+	if (!scratch->spindash)
 	{
 		if (obj->anim != SonAnimId_Duck)
 			return;
@@ -1354,19 +1354,17 @@ static void Sonic_Spindash(Object *obj)
 		if (jpad1_hold2 & JPAD_DOWN)
 		{
 			// Sonic_ChargingSpindash
-			if (!(scratch->spindashCounter)) // if it equals 0
+			if (!scratch->spindashCounter) // if it equals 0
 				goto Sonic_ChargingSpindash_Done;
 
-			if (!(jpad1_hold2 & (JPAD_A | JPAD_C | JPAD_B)))
-				goto Sonic_ChargingSpindash_Done; // bne.s @done, i haven't done that yet tho
+			if (jpad1_hold2 & (JPAD_A | JPAD_C | JPAD_B))
+				goto Sonic_ChargingSpindash_Done; // bne.s @done
 
-// Right, so... This isn't being decremented OR incremented properly, making all spindashes equal to $800 inertia.
+			scratch->spindashCounter -= (scratch->spindashCounter >> 5);
 
-//			scratch->spindashCounter -= (scratch->spindashCounter >> 5);
-			scratch->spindashCounter--;
-
-			if (!(scratch->spindashCounter == 0x1F))
+			if (scratch->spindashCounter != 0x1F)
 				goto Sonic_ChargingSpindash_Skip; // bne.s @skip
+
 			scratch->spindashCounter = 0;
 			scratch->spindash = 0;
 			goto Sonic_ChargingSpindash_Done;
@@ -1374,23 +1372,23 @@ static void Sonic_Spindash(Object *obj)
 Sonic_ChargingSpindash_Skip:
 			if (scratch->spindashCounter > 0x1F)
 				goto Sonic_ChargingSpindash_Done;
+
 			scratch->spindashCounter = 0;
 
 Sonic_ChargingSpindash_Done:
-			if (jpad1_press2 & (JPAD_A | JPAD_C | JPAD_B))
-			{
-				obj->anim_frame = 0;
+			if (!(jpad1_press2 & (JPAD_A | JPAD_C | JPAD_B)))
 				goto Sonic_Spindash_ResetScr;
-			}
-			scratch->spindashCounter = (scratch->spindashCounter + 0x200);
+
+			obj->anim_frame = 0;
+			scratch->spindashCounter += 0x200;
+
 			if (scratch->spindashCounter < 0x800)
 				goto Sonic_Spindash_ResetScr;
+
 			scratch->spindashCounter = 0x800;
 
 Sonic_Spindash_ResetScr:
-			// We're doin' it mate!!!!!!!!
-			// uhhh shit i should look at the other dingus first
-			//Reset screen shift
+			// Reset screen shift
 			if (look_shift < (96 + SCREEN_TALLADD2))
 				look_shift += 2;
 			else if (look_shift > (96 + SCREEN_TALLADD2))
@@ -1408,18 +1406,9 @@ Sonic_Spindash_ResetScr:
 		obj->pos.l.y.f.u += SONIC_BALL_SHIFT; // add the difference between Sonic's rolling and standing heights
 		scratch->spindash = 0;
 
-//		obj->inertia = SpindashSpeeds[(uint16_t)((uint8_t)scratch->spindashCounter + (uint8_t)scratch->spindashCounter)];
-		obj->inertia = SpindashSpeeds[(uint16_t)((uint8_t)scratch->spindashCounter / 0x100)];
+		//obj->inertia = SpindashSpeeds[(scratch->spindashCounter + scratch->spindashCounter)];
+		obj->inertia = SpindashSpeeds[(uint16_t)(scratch->spindashCounter / 0x100)];
 
-		/*
-		obj->inertia -= 8;
-		obj->inertia += obj->inertia;
-		obj->inertia &= 0x1F;
-		obj->inertia = -obj->inertia;
-		obj->inertia += 0x20;
-		*/
-
-		// camera lag bs
 		if (obj->status.p.f.x_flip)
 		{
 			obj->inertia = -obj->inertia;
