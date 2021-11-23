@@ -352,49 +352,91 @@ static const int16_t ldef_size[ZoneId_Num][4][6] = {
 	}
 };
 
-//Player start positions, in the format {X pos hex, Y pos hex}
-static const int16_t ldef_start[ZoneId_Num][4][2] = {
+//Player start positions
+static const int8_t ldef_start[ZoneId_Num][4][4] = {
 	{ //ZoneId_GHZ
-		{0x0050, 0x03B0},
-		{0x0050, 0x00FC},
-		{0x0050, 0x03B0},
-		{0x0080, 0x00A8},
+		{ 
+			#include "Resource/StartPositions/GHZ1.h" 
+		},
+		{
+			#include "Resource/StartPositions/GHZ2.h" 
+		},
+		{
+			#include "Resource/StartPositions/GHZ3.h" 
+		},
+		{0x0, 0x0, 0x0, 0x0},
 	},
 	{ //ZoneId_LZ
-		{0x0060, 0x006C},
-		{0x0050, 0x00EC},
-		{0x0050, 0x02EC},
-		{0x0B80, 0x0000},
+		{
+			#include "Resource/StartPositions/LZ1.h" 
+		},
+		{
+			#include "Resource/StartPositions/LZ2.h" 
+		},
+		{
+			#include "Resource/StartPositions/LZ3.h"
+		},
+		{
+			#include "Resource/StartPositions/SBZ3.h" 
+		},
 	},
 	{ //ZoneId_MZ
-		{0x0030, 0x0266},
-		{0x0030, 0x0266},
-		{0x0030, 0x0166},
-		{0x0080, 0x00A8},
+		{
+			#include "Resource/StartPositions/MZ1.h" 
+		},
+		{
+			#include "Resource/StartPositions/MZ2.h" 
+		},
+		{
+			#include "Resource/StartPositions/MZ3.h" 
+		},
+		{0x0, 0x0, 0x0, 0x0},
 	},
 	{ //ZoneId_SLZ
-		{0x0040, 0x02CC},
-		{0x0040, 0x014C},
-		{0x0040, 0x014C},
-		{0x0080, 0x00A8},
+		{
+			#include "Resource/StartPositions/SLZ1.h" 
+		},
+		{
+			#include "Resource/StartPositions/SLZ2.h" 
+		},
+		{
+			#include "Resource/StartPositions/SLZ3.h" 
+		},
+		{0x0, 0x0, 0x0, 0x0},
 	},
 	{ //ZoneId_SYZ
-		{0x0030, 0x03BD},
-		{0x0030, 0x01BD},
-		{0x0030, 0x00EC},
-		{0x0080, 0x00A8},
+		{
+			#include "Resource/StartPositions/SYZ1.h" 
+		},
+		{
+			#include "Resource/StartPositions/SYZ2.h" 
+		},
+		{
+			#include "Resource/StartPositions/SYZ3.h" 
+		},
+		{0x0, 0x0, 0x0, 0x0},
 	},
 	{ //ZoneId_SBZ
-		{0x0030, 0x048C},
-		{0x0030, 0x074C},
-		{0x2140, 0x05AC},
-		{0x0080, 0x00A8},
+		{
+			#include "Resource/StartPositions/SBZ1.h" 
+		},
+		{
+			#include "Resource/StartPositions/SBZ2.h" 
+		},
+		{
+			#include "Resource/StartPositions/FZ.h" 
+		},
+		{0x0, 0x0, 0x0, 0x0},
 	},
 	{ //ZoneId_EndZ
-		{0x0620, 0x016B},
-		{0x0EE0, 0x016C},
-		{0x0080, 0x00A8},
-		{0x0080, 0x00A8},
+		{
+			#include "Resource/StartPositions/END1.h" 
+		},
+		{
+			#include "Resource/StartPositions/END2.h" 
+		},
+		{0x0, 0x0, 0x0, 0x0},
+		{0x0, 0x0, 0x0, 0x0},
 	},
 };
 
@@ -692,8 +734,11 @@ void LevelSizeLoad()
 		else
 		{
 			//Level
-			x = ldef_start[LEVEL_ZONE(level_id)][LEVEL_ACT(level_id)][0];
-			y = ldef_start[LEVEL_ZONE(level_id)][LEVEL_ACT(level_id)][1];
+			x = ((ldef_start[LEVEL_ZONE(level_id)][LEVEL_ACT(level_id)][0] * 0x100u)
+                | ldef_start[LEVEL_ZONE(level_id)][LEVEL_ACT(level_id)][1] & 0xFF);
+
+			y = ((ldef_start[LEVEL_ZONE(level_id)][LEVEL_ACT(level_id)][2] * 0x100u)
+			    | ldef_start[LEVEL_ZONE(level_id)][LEVEL_ACT(level_id)][3] & 0xFF);
 		}
 		
 		player->pos.l.x.f.u = x;
